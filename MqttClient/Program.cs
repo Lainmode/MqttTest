@@ -26,6 +26,8 @@ namespace MqttClient
 
             // handlers
             mqttClient.ConnectedAsync += async e => { Print("Connected!", ConsoleColor.Cyan); };
+            //mqttClient.sub += async e => { Print("Connected!", ConsoleColor.Cyan); };
+
 
             // connect using the previously decalred options
             await mqttClient.ConnectAsync(options);
