@@ -28,11 +28,11 @@ namespace MqttServer
 
 
             // Handlers
-            broker.StartedAsync += async e => { Console.WriteLine("Server successfully started!"); };
-            broker.ClientConnectedAsync += async e => { Console.WriteLine($"New connection: ID: {e.ClientId} ENDPOINT: {e.Endpoint}"); };
-            broker.ClientDisconnectedAsync += async e => { Console.WriteLine($"Client disconnected: ID: {e.ClientId} ENDPOINT: {e.Endpoint}"); };
-            broker.ClientSubscribedTopicAsync += async e => { Console.WriteLine(e.TopicFilter.Topic); };
-            broker.InterceptingPublishAsync += async e => { Console.WriteLine(Encoding.UTF8.GetString(e.ApplicationMessage.Payload)); };
+            broker.StartedAsync += async e => { Print("Server successfully started!", ConsoleColor.Cyan); };
+            broker.ClientConnectedAsync += async e => { Print($"New connection: ID: {e.ClientId} ENDPOINT: {e.Endpoint}", ConsoleColor.Green); };
+            broker.ClientDisconnectedAsync += async e => { Print($"Client disconnected: ID: {e.ClientId} ENDPOINT: {e.Endpoint}", ConsoleColor.DarkYellow); };
+            broker.ClientSubscribedTopicAsync += async e => { Print($"Client subscribed to: {e.TopicFilter.Topic}", ConsoleColor.Blue); };
+            broker.InterceptingPublishAsync += async e => { Print($"Data published: {Encoding.UTF8.GetString(e.ApplicationMessage.Payload)}", ConsoleColor.Magenta); };
 
             // start server
             await broker.StartAsync();
@@ -48,6 +48,19 @@ namespace MqttServer
 
             Console.ReadLine();
 
+        }
+
+
+        public static void Print(string message)
+        {
+            Console.WriteLine(message);
+        }
+
+        public static void Print(string message, ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
+            Console.WriteLine(message);
+            Console.ResetColor();
         }
 
 
